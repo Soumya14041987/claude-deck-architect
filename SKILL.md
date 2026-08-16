@@ -126,6 +126,11 @@ code block.
 
 ## Step 4 — Build the deck
 
+Before the first build in a fresh checkout, confirm dependencies are installed — `deck_engine.js`
+requires `pptxgenjs` (`npm install` if `node_modules/` is missing) and `build_deck.py` requires the
+packages in `requirements.txt` (`pip install -r requirements.txt`). Skip this check if `node_modules/`
+already exists.
+
 Run `scripts/build_deck.py` with a JSON content plan (schema in `references/content-plan-schema.md`)
 rather than hand-writing pptxgenjs calls inline — the script already implements the theme engine,
 archetype layouts, speaker-notes injection, and the `pptxgenjs` footguns documented in the base
