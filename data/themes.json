@@ -1,0 +1,79 @@
+{
+  "aws-orange": {
+    "bg_dark": "232F3E",
+    "bg_light": "FFFFFF",
+    "accent_primary": "FF9900",
+    "accent_secondary": "1EC9E8",
+    "card_dark": "141D2B",
+    "card_light": "F1F5F9",
+    "text": "E6E6E6",
+    "ink": "0F172A",
+    "font": "Arial"
+  },
+  "gcp-multi": {
+    "bg_dark": "1A1C23",
+    "bg_light": "FFFFFF",
+    "accent_primary": "4285F4",
+    "accent_secondary": "34A853",
+    "card_dark": "24262E",
+    "card_light": "F1F5F9",
+    "text": "E6E6E6",
+    "ink": "0F172A",
+    "font": "Arial"
+  },
+  "azure-electric": {
+    "bg_dark": "0B192C",
+    "bg_light": "FFFFFF",
+    "accent_primary": "0078D4",
+    "accent_secondary": "50E6FF",
+    "card_dark": "001122",
+    "card_light": "F1F5F9",
+    "text": "E6E6E6",
+    "ink": "0F172A",
+    "font": "Arial"
+  },
+  "cncf-teal": {
+    "bg_dark": "0F172A",
+    "bg_light": "FFFFFF",
+    "accent_primary": "326CE5",
+    "accent_secondary": "00A7B5",
+    "card_dark": "1E293B",
+    "card_light": "F1F5F9",
+    "text": "E6E6E6",
+    "ink": "0F172A",
+    "font": "Arial"
+  },
+  "cyber-neon": {
+    "bg_dark": "0B132B",
+    "bg_light": "FFFFFF",
+    "accent_primary": "00EBFF",
+    "accent_secondary": "7000FF",
+    "card_dark": "030712",
+    "card_light": "F1F5F9",
+    "text": "E6E6E6",
+    "ink": "0F172A",
+    "font": "Arial"
+  },
+  "multi-cloud": {
+    "bg_dark": "1A1B22",
+    "bg_light": "FFFFFF",
+    "accent_primary": "8C8C8C",
+    "accent_secondary": "B5B5B5",
+    "card_dark": "24252C",
+    "card_light": "F1F5F9",
+    "text": "E6E6E6",
+    "ink": "0F172A",
+    "font": "Arial"
+  },
+  "light-editorial": {
+    "bg_dark": "FAFAFA",
+    "bg_light": "FAFAFA",
+    "accent_primary": "0F172A",
+    "accent_secondary": "2563EB",
+    "card_dark": "F1F5F9",
+    "card_light": "F1F5F9",
+    "text": "1A1A1A",
+    "ink": "0F172A",
+    "font": "Arial"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "$schema": "https://claude.ai/schemas/plugin-manifest.json",
+  "name": "deck-architect",
+  "displayName": "Deck Architect",
+  "version": "1.0.0",
+  "description": "Generate polished, editable PPTX/PDF slide decks on cloud and agentic AI topics — automatic theming, architecture diagrams, curated resources.",
+  "type": "skill-plugin",
+  "entrypoint": "SKILL.md",
+  "icon": "assets/logos/deck-architect-icon.svg",
+  "author": "Soumya",
+  "license": "MIT",
+  "repository": "https://github.com/Soumya14041987/claude-deck-architect",
+  "compatibility": {
+    "claude-desktop": ">=1.0.0",
+    "claude-code": ">=1.0.0"
+  },
+  "invocation": {
+    "trigger": "/deck-architect",
+    "aliases": ["deck", "slides"]
+  },
+  "permissions": {
+    "network": ["docs.aws.amazon.com", "cloud.google.com", "learn.microsoft.com", "github.com", "api.github.com", "kubernetes.io", "cncf.io"],
+    "filesystem": ["read", "write"]
+  }
+}

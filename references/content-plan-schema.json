@@ -1,0 +1,624 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Deck Architect Content Plan Schema",
+  "description": "JSON schema for validating content plans used by build_deck.py. Use with jsonschema Python library or similar validators.",
+  "type": "object",
+  "required": ["title", "theme", "slides"],
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Deck title",
+      "minLength": 1
+    },
+    "subtitle": {
+      "type": "string",
+      "description": "Optional subtitle for title slide"
+    },
+    "presenter": {
+      "type": "string",
+      "description": "Presenter name (shown on title slide and in PPTX metadata)"
+    },
+    "event": {
+      "type": "string",
+      "description": "Event name (shown on title slide and in footer)"
+    },
+    "theme": {
+      "type": "string",
+      "description": "Theme name from data/themes.json",
+      "enum": ["aws-orange", "gcp-multi", "azure-electric", "cncf-teal", "cyber-neon", "multi-cloud", "light-editorial"]
+    },
+    "mode": {
+      "type": "string",
+      "description": "Color mode",
+      "enum": ["dark", "light"],
+      "default": "dark"
+    },
+    "level": {
+      "type": "string",
+      "description": "Difficulty level",
+      "enum": ["Fundamentals", "Intermediate", "Advanced"]
+    },
+    "format": {
+      "type": "array",
+      "description": "Output format(s)",
+      "items": {
+        "type": "string",
+        "enum": ["pptx", "pdf"]
+      },
+      "default": ["pptx"]
+    },
+    "slides": {
+      "type": "array",
+      "description": "Array of slide objects",
+      "minItems": 1,
+      "items": {
+        "oneOf": [
+          {
+            "$ref": "#/definitions/TitleSlide"
+          },
+          {
+            "$ref": "#/definitions/AgendaSlide"
+          },
+          {
+            "$ref": "#/definitions/ProblemFrictionSlide"
+          },
+          {
+            "$ref": "#/definitions/KeyConceptSlide"
+          },
+          {
+            "$ref": "#/definitions/TopologySlide"
+          },
+          {
+            "$ref": "#/definitions/DeepDiveSlide"
+          },
+          {
+            "$ref": "#/definitions/CodeSpecSlide"
+          },
+          {
+            "$ref": "#/definitions/ComparisonSlide"
+          },
+          {
+            "$ref": "#/definitions/TimelineSlide"
+          },
+          {
+            "$ref": "#/definitions/BenchmarkMatrixSlide"
+          },
+          {
+            "$ref": "#/definitions/ProductionGotchasSlide"
+          },
+          {
+            "$ref": "#/definitions/DemoSlide"
+          },
+          {
+            "$ref": "#/definitions/QuoteSlide"
+          },
+          {
+            "$ref": "#/definitions/ResourcesSlide"
+          },
+          {
+            "$ref": "#/definitions/CallToActionSlide"
+          }
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "BaseSlide": {
+      "type": "object",
+      "required": ["archetype", "title"],
+      "properties": {
+        "archetype": {
+          "type": "string",
+          "description": "Slide type from the 15 archetypes"
+        },
+        "title": {
+          "type": "string",
+          "description": "Slide title"
+        },
+        "notes": {
+          "type": "string",
+          "description": "Speaker notes (plain text)"
+        }
+      }
+    },
+    "TitleSlide": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/BaseSlide"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "archetype": {
+              "const": "Title"
+            },
+            "subtitle": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "AgendaSlide": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/BaseSlide"
+        },
+        {
+          "type": "object",
+          "required": ["items"],
+          "properties": {
+            "archetype": {
+              "const": "Agenda"
+            },
+            "items": {
+              "type": "array",
+              "description": "List of agenda items (4-7 recommended)",
+              "items": {
+                "type": "string"
+              },
+              "minItems": 1
+            }
+          }
+        }
+      ]
+    },
+    "ProblemFrictionSlide": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/BaseSlide"
+        },
+        {
+          "type": "object",
+          "required": ["before", "after"],
+          "properties": {
+            "archetype": {
+              "const": "ProblemFriction"
+            },
+            "before": {
+              "type": "object",
+              "properties": {
+                "label": {
+                  "type": "string",
+                  "default": "Before"
+                },
+                "text": {
+                  "type": "string"
+                }
+              }
+            },
+            "after": {
+              "type": "object",
+              "properties": {
+                "label": {
+                  "type": "string",
+                  "default": "After"
+                },
+                "text": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "KeyConceptSlide": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/BaseSlide"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "archetype": {
+              "const": "KeyConcept"
+            },
+            "points": {
+              "type": "array",
+              "description": "2-4 supporting points",
+              "items": {
+                "type": "string"
+              },
+              "minItems": 1
+            },
+            "image": {
+              "type": ["string", "boolean"],
+              "description": "Path to image file, or false to skip visual"
+            }
+          }
+        }
+      ]
+    },
+    "TopologySlide": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/BaseSlide"
+        },
+        {
+          "type": "object",
+          "required": ["mermaid"],
+          "properties": {
+            "archetype": {
+              "const": "Topology"
+            },
+            "mermaid": {
+              "type": "string",
+              "description": "Mermaid diagram source (flowchart, sequence, stateDiagram)"
+            },
+            "callouts": {
+              "type": "array",
+              "description": "Numbered callout texts (1-4 recommended)",
+              "items": {
+                "type": "string"
+              }
+            },
+            "diagram_image": {
+              "type": "string",
+              "description": "Path to pre-rendered diagram PNG (set by build_deck.py)"
+            }
+          }
+        }
+      ]
+    },
+    "DeepDiveSlide": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/BaseSlide"
+        },
+        {
+          "type": "object",
+          "required": ["layers"],
+          "properties": {
+            "archetype": {
+              "const": "DeepDive"
+            },
+            "layers": {
+              "type": "array",
+              "description": "3-5 stacked layers",
+              "items": {
+                "oneOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "label": {
+                        "type": "string"
+                      },
+                      "text": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                ]
+              },
+              "minItems": 1
+            }
+          }
+        }
+      ]
+    },
+    "CodeSpecSlide": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/BaseSlide"
+        },
+        {
+          "type": "object",
+          "required": ["code"],
+          "properties": {
+            "archetype": {
+              "const": "CodeSpec"
+            },
+            "code": {
+              "type": "string",
+              "description": "Code snippet (≤15 lines recommended)"
+            },
+            "language": {
+              "type": "string",
+              "description": "Language name (YAML, Python, JSON, etc.)"
+            }
+          }
+        }
+      ]
+    },
+    "ComparisonSlide": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/BaseSlide"
+        },
+        {
+          "type": "object",
+          "required": ["columns"],
+          "properties": {
+            "archetype": {
+              "const": "Comparison"
+            },
+            "columns": {
+              "type": "array",
+              "description": "2-3 comparison columns",
+              "items": {
+                "type": "object",
+                "required": ["name", "rows"],
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "rows": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "minItems": 1
+                  }
+                }
+              },
+              "minItems": 2,
+              "maxItems": 3
+            }
+          }
+        }
+      ]
+    },
+    "TimelineSlide": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/BaseSlide"
+        },
+        {
+          "type": "object",
+          "required": ["items"],
+          "properties": {
+            "archetype": {
+              "const": "Timeline"
+            },
+            "items": {
+              "type": "array",
+              "description": "3-6 timeline points",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "date": {
+                    "type": "string"
+                  },
+                  "label": {
+                    "type": "string"
+                  }
+                }
+              },
+              "minItems": 1
+            }
+          }
+        }
+      ]
+    },
+    "BenchmarkMatrixSlide": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/BaseSlide"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "archetype": {
+              "const": "BenchmarkMatrix"
+            },
+            "chart_type": {
+              "type": "string",
+              "description": "Chart type for numeric data",
+              "enum": ["table", "bar", "line"],
+              "default": "table"
+            },
+            "categories": {
+              "type": "array",
+              "description": "Category labels (X-axis for bar/line, columns for table)",
+              "items": {
+                "type": "string"
+              }
+            },
+            "series": {
+              "type": "array",
+              "description": "Data series for charts",
+              "items": {
+                "type": "object",
+                "required": ["name", "values"],
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "values": {
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {
+              "type": "array",
+              "description": "Column headers for table view",
+              "items": {
+                "type": "string"
+              }
+            },
+            "rows": {
+              "type": "array",
+              "description": "Table rows (for table_type='table')",
+              "items": {
+                "type": "array",
+                "items": {
+                  "type": ["string", "number"]
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "ProductionGotchasSlide": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/BaseSlide"
+        },
+        {
+          "type": "object",
+          "required": ["items"],
+          "properties": {
+            "archetype": {
+              "const": "ProductionGotchas"
+            },
+            "items": {
+              "type": "array",
+              "description": "3-4 production gotchas (numbered cards)",
+              "items": {
+                "type": "string"
+              },
+              "minItems": 1
+            }
+          }
+        }
+      ]
+    },
+    "DemoSlide": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/BaseSlide"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "archetype": {
+              "const": "Demo"
+            },
+            "image": {
+              "type": "string",
+              "description": "Path to screenshot/demo image"
+            },
+            "steps": {
+              "type": "array",
+              "description": "Demo steps if no image",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "QuoteSlide": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/BaseSlide"
+        },
+        {
+          "type": "object",
+          "required": ["text"],
+          "properties": {
+            "archetype": {
+              "const": "Quote"
+            },
+            "text": {
+              "type": "string",
+              "description": "Quote text (≤25 words paraphrase, not verbatim copyrighted)"
+            },
+            "attribution": {
+              "type": "string",
+              "description": "Quote attribution (person/org)"
+            }
+          }
+        }
+      ]
+    },
+    "ResourcesSlide": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/BaseSlide"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "archetype": {
+              "const": "Resources"
+            },
+            "docs": {
+              "type": "array",
+              "description": "Official documentation links",
+              "items": {
+                "type": "object",
+                "required": ["url"],
+                "properties": {
+                  "label": {
+                    "type": "string"
+                  },
+                  "url": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "Must be a real, verified URL (never fabricated)"
+                  }
+                }
+              }
+            },
+            "repos": {
+              "type": "array",
+              "description": "GitHub repositories and community links",
+              "items": {
+                "type": "object",
+                "required": ["url"],
+                "properties": {
+                  "label": {
+                    "type": "string"
+                  },
+                  "url": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "Must be a real, verified URL (never fabricated)"
+                  },
+                  "stars": {
+                    "type": "integer",
+                    "description": "Star count (optional, updated by fetch_resources.py)"
+                  },
+                  "last_updated": {
+                    "type": "string",
+                    "description": "Last push date (optional, updated by fetch_resources.py)"
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "CallToActionSlide": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/BaseSlide"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "archetype": {
+              "const": "CallToAction"
+            },
+            "items": {
+              "type": "array",
+              "description": "Next steps (2-3 recommended)",
+              "items": {
+                "type": "string"
+              }
+            },
+            "handles": {
+              "type": "array",
+              "description": "Contact/social handles",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

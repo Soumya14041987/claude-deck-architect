@@ -1,0 +1,38 @@
+{
+  "name": "deck-architect",
+  "version": "1.0.0",
+  "description": "Generates polished, editable slide decks (PPTX/PDF) on cloud and agentic AI topics with automatic theming, accurate architecture diagrams, and curated resources.",
+  "author": {
+    "name": "Soumya",
+    "url": "https://github.com/Soumya14041987"
+  },
+  "homepage": "https://github.com/Soumya14041987/claude-deck-architect",
+  "repository": "https://github.com/Soumya14041987/claude-deck-architect",
+  "license": "MIT",
+  "keywords": [
+    "presentations",
+    "pptx",
+    "aws",
+    "gcp",
+    "azure",
+    "kubernetes",
+    "cncf",
+    "agentic-ai",
+    "genai",
+    "slides",
+    "mermaid"
+  ],
+  "skills": [
+    "./SKILL.md"
+  ],
+  "commands": {
+    "deck-architect": {
+      "description": "Generate a slide deck on a cloud or agentic AI topic",
+      "script": "scripts/cli.py",
+      "usage": "/deck-architect <topic> [slides] [provider] [level] [format]"
+    }
+  },
+  "engines": {
+    "python": ">=3.9"
+  }
+}

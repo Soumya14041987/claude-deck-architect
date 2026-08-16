@@ -1,0 +1,156 @@
+{
+  "title": "AWS Lambda for Beginners",
+  "subtitle": "Serverless computing without the servers",
+  "presenter": "Bob Smith",
+  "event": "AWS Community Day",
+  "theme": "aws-orange",
+  "mode": "dark",
+  "level": "Fundamentals",
+  "format": ["pptx"],
+  "slides": [
+    {
+      "archetype": "Title",
+      "title": "AWS Lambda for Beginners",
+      "subtitle": "Serverless computing without the servers"
+    },
+    {
+      "archetype": "Agenda",
+      "title": "What We'll Cover",
+      "items": [
+        "What is serverless computing?",
+        "Lambda basics and pricing",
+        "Your first Lambda function",
+        "Common use cases",
+        "Lambda + API Gateway"
+      ]
+    },
+    {
+      "archetype": "ProblemFriction",
+      "title": "Traditional Servers vs. Serverless",
+      "before": {
+        "label": "EC2 Servers",
+        "text": "• Manage OS updates\n• Pay for idle time\n• Scale is manual\n• Handle capacity planning"
+      },
+      "after": {
+        "label": "Lambda",
+        "text": "• AWS handles OS\n• Pay only for execution\n• Auto-scaling included\n• Write code, not infrastructure"
+      }
+    },
+    {
+      "archetype": "KeyConcept",
+      "title": "How Lambda Works",
+      "points": [
+        "You upload code (Python, Node, Java, etc.)",
+        "AWS runs it only when triggered (event-driven)",
+        "Scales automatically from 1 to thousands of executions",
+        "You pay only for compute time used (in milliseconds)"
+      ]
+    },
+    {
+      "archetype": "Topology",
+      "title": "Lambda in Action",
+      "mermaid": "graph LR\n  A[API Gateway] -->|HTTP Request| B[Lambda Function]\n  B -->|Read/Write| C[DynamoDB]\n  B -->|Send Event| D[SNS Topic]\n  D -->|Notify| E[Email]\n  A -->|Response| F[Client]",
+      "callouts": [
+        "API Gateway triggers Lambda",
+        "Lambda accesses databases and services",
+        "Events propagate to other services"
+      ]
+    },
+    {
+      "archetype": "CodeSpec",
+      "title": "Hello World Lambda",
+      "language": "Python",
+      "code": "def lambda_handler(event, context):\n    \"\"\"\n    Main Lambda function handler\n    \"\"\"\n    name = event.get('name', 'World')\n    message = f'Hello, {name}!'\n    \n    return {\n        'statusCode': 200,\n        'body': message\n    }"
+    },
+    {
+      "archetype": "KeyConcept",
+      "title": "Lambda Pricing",
+      "points": [
+        "First 1 million requests per month are free",
+        "Pay $0.20 per 1 million requests after that",
+        "Compute time charged in 100ms increments",
+        "1GB for 1 second = $0.0000166667"
+      ]
+    },
+    {
+      "archetype": "Comparison",
+      "title": "Lambda vs. EC2 vs. Containers",
+      "columns": [
+        {
+          "name": "Lambda",
+          "rows": [
+            "Fully managed",
+            "Sub-second startup",
+            "Per-millisecond billing",
+            "15 min timeout"
+          ]
+        },
+        {
+          "name": "ECS Fargate",
+          "rows": [
+            "Partially managed",
+            "Multi-second startup",
+            "Per-second billing",
+            "Flexible timeout"
+          ]
+        },
+        {
+          "name": "EC2",
+          "rows": [
+            "Manual management",
+            "Minutes to start",
+            "Per-hour billing",
+            "No timeout"
+          ]
+        }
+      ]
+    },
+    {
+      "archetype": "ProductionGotchas",
+      "title": "Lambda in Production",
+      "items": [
+        "Cold starts: First execution can be slow (100ms-1s+)",
+        "15-minute timeout: Not suitable for long-running jobs",
+        "Memory determines CPU: More memory = faster code",
+        "Use provisioned concurrency for predictable traffic"
+      ]
+    },
+    {
+      "archetype": "Resources",
+      "title": "Lambda Resources",
+      "docs": [
+        {
+          "label": "AWS Lambda Developer Guide",
+          "url": "https://docs.aws.amazon.com/lambda/latest/dg/"
+        },
+        {
+          "label": "Lambda Pricing Calculator",
+          "url": "https://aws.amazon.com/lambda/pricing/"
+        }
+      ],
+      "repos": [
+        {
+          "label": "aws-samples/serverless-patterns",
+          "url": "https://github.com/aws-samples/serverless-patterns"
+        },
+        {
+          "label": "aws-lambda-powertools/python",
+          "url": "https://github.com/aws-lambda-powertools/python"
+        }
+      ]
+    },
+    {
+      "archetype": "CallToAction",
+      "title": "Ready to Build Serverless?",
+      "items": [
+        "Create a free AWS account (1 million Lambda requests included)",
+        "Deploy your first function in 5 minutes",
+        "Explore AWS Lambda Powertools for production patterns"
+      ],
+      "handles": [
+        "aws.amazon.com",
+        "#serverless on AWS Community Slack"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,133 @@
+{
+  "title": "Getting Started with Kubernetes",
+  "subtitle": "A beginner's guide to container orchestration",
+  "presenter": "Jane Doe",
+  "event": "Tech Meetup 2026",
+  "theme": "cncf-teal",
+  "mode": "dark",
+  "level": "Fundamentals",
+  "format": ["pptx"],
+  "slides": [
+    {
+      "archetype": "Title",
+      "title": "Getting Started with Kubernetes",
+      "subtitle": "A beginner's guide to container orchestration",
+      "notes": "Welcome! Today we'll explore what Kubernetes is and why it matters."
+    },
+    {
+      "archetype": "Agenda",
+      "title": "Today's Topics",
+      "items": [
+        "What is Kubernetes?",
+        "Why containers need orchestration",
+        "Core concepts: Pods, Services, Deployments",
+        "Running your first container",
+        "Resources and next steps"
+      ],
+      "notes": "We'll cover the fundamentals of Kubernetes in 20 minutes."
+    },
+    {
+      "archetype": "ProblemFriction",
+      "title": "The Container Orchestration Problem",
+      "before": {
+        "label": "Before Kubernetes",
+        "text": "• Manual container management\n• No automatic scaling\n• Complex networking setup\n• Difficult failover and updates"
+      },
+      "after": {
+        "label": "With Kubernetes",
+        "text": "• Automated deployment\n• Self-healing and scaling\n• Built-in networking\n• Zero-downtime updates"
+      },
+      "notes": "Kubernetes solves the problem of managing many containers across multiple machines."
+    },
+    {
+      "archetype": "KeyConcept",
+      "title": "Pods: The Smallest Unit",
+      "points": [
+        "A Pod is the smallest deployable unit in Kubernetes",
+        "Usually contains one container (can be multiple)",
+        "Containers in a Pod share networking namespace",
+        "Ephemeral — Pods are created and destroyed"
+      ],
+      "notes": "Think of a Pod like a container wrapper that adds Kubernetes features."
+    },
+    {
+      "archetype": "KeyConcept",
+      "title": "Services: Stable Networking",
+      "points": [
+        "A Service provides stable IP and DNS for accessing Pods",
+        "Loadbalances traffic across multiple Pod replicas",
+        "Decouples the client from the Pods behind it",
+        "Three main types: ClusterIP, NodePort, LoadBalancer"
+      ],
+      "notes": "Services solve the problem of unstable Pod IPs."
+    },
+    {
+      "archetype": "Topology",
+      "title": "Kubernetes Architecture",
+      "mermaid": "graph LR\n  A[kubectl] -->|API Requests| B[API Server]\n  B --> C[etcd Database]\n  B --> D[Controller Manager]\n  B --> E[Scheduler]\n  D --> F[Worker Nodes]\n  E --> F\n  F --> G[Kubelet]\n  G --> H[Pod 1]\n  G --> I[Pod 2]",
+      "callouts": [
+        "API Server: Central control plane",
+        "Scheduler: Places Pods on nodes",
+        "Kubelet: Manages Pods on each node"
+      ],
+      "notes": "The control plane manages the cluster state; worker nodes run the actual containers."
+    },
+    {
+      "archetype": "CodeSpec",
+      "title": "Your First Deployment",
+      "language": "YAML",
+      "code": "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: hello-app\nspec:\n  replicas: 3\n  selector:\n    matchLabels:\n      app: hello\n  template:\n    metadata:\n      labels:\n        app: hello\n    spec:\n      containers:\n      - name: app\n        image: gcr.io/google-samples/hello-app:1.0\n        ports:\n        - containerPort: 8080",
+      "notes": "This YAML creates 3 replicas of a simple hello-world app. Kubernetes will keep them running."
+    },
+    {
+      "archetype": "ProductionGotchas",
+      "title": "Common Kubernetes Pitfalls",
+      "items": [
+        "Missing resource requests/limits can starve other workloads",
+        "NodePort services are not ideal for production (use Ingress or LoadBalancer)",
+        "etcd backups are critical — losing them loses cluster state",
+        "Network policies aren't enabled by default — add them early"
+      ],
+      "notes": "Learn from others' mistakes so you don't make them yourself."
+    },
+    {
+      "archetype": "Resources",
+      "title": "Learn More",
+      "docs": [
+        {
+          "label": "Official Kubernetes Documentation",
+          "url": "https://kubernetes.io/docs/"
+        },
+        {
+          "label": "Interactive Kubernetes Tutorial",
+          "url": "https://kubernetes.io/docs/tutorials/"
+        }
+      ],
+      "repos": [
+        {
+          "label": "kubernetes/kubernetes (main repo)",
+          "url": "https://github.com/kubernetes/kubernetes"
+        },
+        {
+          "label": "kubernetes/examples (sample deployments)",
+          "url": "https://github.com/kubernetes/examples"
+        }
+      ],
+      "notes": "Check these resources for deeper learning."
+    },
+    {
+      "archetype": "CallToAction",
+      "title": "Start Your Kubernetes Journey",
+      "items": [
+        "Try minikube or kind for local Kubernetes",
+        "Deploy your first app using kubectl",
+        "Join the Kubernetes community on Slack"
+      ],
+      "handles": [
+        "@yourusername",
+        "yourteam@company.com"
+      ],
+      "notes": "Thank you for attending! Questions?"
+    }
+  ]
+}

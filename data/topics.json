@@ -1,0 +1,68 @@
+{
+  "bedrock-agentcore": {
+    "display_name": "Amazon Bedrock AgentCore",
+    "theme": "aws-orange",
+    "docs": [
+      { "label": "AgentCore Developer Guide", "url": "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/what-is-bedrock-agentcore.html" },
+      { "label": "AgentCore Product Page", "url": "https://www.aws.amazon.com/bedrock/agentcore/" }
+    ],
+    "repos": [
+      { "label": "aws/bedrock-agentcore-sdk-python", "url": "https://github.com/aws/bedrock-agentcore-sdk-python" },
+      { "label": "awslabs/agentcore-samples", "url": "https://github.com/awslabs/agentcore-samples" }
+    ]
+  },
+  "langgraph": {
+    "display_name": "LangGraph",
+    "theme": "cyber-neon",
+    "docs": [
+      { "label": "LangGraph Overview", "url": "https://docs.langchain.com/oss/python/langgraph/overview" }
+    ],
+    "repos": [
+      { "label": "langchain-ai/langgraph", "url": "https://github.com/langchain-ai/langgraph" },
+      { "label": "langchain-ai/langgraph-101", "url": "https://github.com/langchain-ai/langgraph-101" }
+    ]
+  },
+  "kubernetes-cncf": {
+    "display_name": "Kubernetes / CNCF Ecosystem",
+    "theme": "cncf-teal",
+    "docs": [
+      { "label": "Kubernetes Documentation", "url": "https://kubernetes.io/docs/home/" },
+      { "label": "CNCF Cloud Native Landscape", "url": "https://landscape.cncf.io/" }
+    ],
+    "repos": [
+      { "label": "kubernetes/kubernetes", "url": "https://github.com/kubernetes/kubernetes" },
+      { "label": "cncf/landscape", "url": "https://github.com/cncf/landscape" }
+    ]
+  },
+  "model-context-protocol": {
+    "display_name": "Model Context Protocol (MCP)",
+    "theme": "cyber-neon",
+    "docs": [
+      { "label": "MCP Specification & Docs", "url": "https://modelcontextprotocol.io/" }
+    ],
+    "repos": [
+      { "label": "modelcontextprotocol/servers", "url": "https://github.com/modelcontextprotocol/servers" }
+    ]
+  },
+  "vertex-ai": {
+    "display_name": "Google Vertex AI",
+    "theme": "gcp-multi",
+    "docs": [
+      { "label": "Vertex AI Documentation", "url": "https://cloud.google.com/vertex-ai/docs" }
+    ],
+    "repos": [
+      { "label": "GoogleCloudPlatform/generative-ai", "url": "https://github.com/GoogleCloudPlatform/generative-ai" }
+    ]
+  },
+  "azure-openai": {
+    "display_name": "Azure OpenAI Service",
+    "theme": "azure-electric",
+    "docs": [
+      { "label": "Azure OpenAI Service Documentation", "url": "https://learn.microsoft.com/en-us/azure/ai-services/openai/" }
+    ],
+    "repos": [
+      { "label": "Azure-Samples/azureai-samples", "url": "https://github.com/Azure-Samples/azureai-samples" }
+    ]
+  },
+  "_notes": "Seed data only — verify/refresh with scripts/fetch_resources.py or a live web search before using in a deck for a topic not covered here or where a link's currency matters."
+}

@@ -1,0 +1,17 @@
+{
+  "name": "claude-deck-architect",
+  "version": "1.0.0",
+  "description": "Claude Skill/plugin that generates polished PPTX/PDF slide decks on cloud and agentic AI topics.",
+  "private": true,
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Soumya14041987/claude-deck-architect.git"
+  },
+  "dependencies": {
+    "pptxgenjs": "^3.12.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
