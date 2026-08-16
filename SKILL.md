@@ -29,6 +29,12 @@ Do **not** use this for general-purpose, non-technical presentations (e.g. a wed
 a sales pitch deck with no technical content) — those are better served by the base `pptx` skill
 without this skill's cloud/agentic-AI theming and diagram logic.
 
+**Portable by design:** this file is plain agent instructions plus two CLI scripts
+(`scripts/build_deck.py`, `scripts/deck_engine.js`). Any agentic IDE or assistant that can read a
+Markdown instruction file and run shell commands can drive this skill, not just Claude Code/Desktop
+— see `README.md` → "Using this skill in other agentic IDEs" for Cursor, Kiro, VS Code
+(Copilot Chat/Continue/Cline), PyCharm AI Assistant, and similar tools.
+
 ## Step 0 — Load supporting context first
 
 Before generating anything, read in this order:
@@ -59,11 +65,24 @@ Use a structured prompt with pre-defined dropdown-style options so the user can 
 4. **Diagram style** — Architecture diagram / Workflow diagram / Pipeline diagram / Mixed / No diagram
 5. **Difficulty level** — Fundamentals / Intermediate / Advanced
 6. **Output format** — PPTX / PDF / Both
+7. **Speaker info for the `Speaker` slide** — a LinkedIn profile URL (preferred), or "skip". If the
+   user gives no answer after one nudge, skip the `Speaker` slide entirely rather than blocking.
 
 If the topic name alone makes an answer obvious (e.g. "AWS Bedrock AgentCore" implies AWS), infer
 it and only ask about the remaining unknowns — state the inferred value rather than asking about
 it. Never block indefinitely: if the user gives a vague or partial answer, pick sensible defaults
 (15 slides, Intermediate, PPTX, mixed diagram style) and proceed rather than re-prompting more than once.
+
+### Step 1a — Sourcing the Speaker slide from LinkedIn
+
+If the user gave a LinkedIn URL, use available web tools (`WebFetch`/`WebSearch`) to pull the
+public profile's name, current headline/role, and About summary. LinkedIn frequently blocks
+unauthenticated scraping — if the fetch is empty, blocked, or returns a login wall, do not guess
+or fabricate a bio: fall back to asking the user directly for name, role, and a 2-3 sentence bio,
+or ask them to paste the profile text. Never invent job titles, employers, or accomplishments.
+Paraphrase whatever source text you do get — don't copy a LinkedIn About section verbatim onto a
+slide. Only use a headshot image if the user supplies one directly (as a local file path); never
+hotlink or scrape a LinkedIn CDN photo URL.
 
 ## Step 2 — Resolve theme and content plan
 
@@ -75,23 +94,35 @@ it. Never block indefinitely: if the user gives a vague or partial answer, pick 
    entries look stale, run web searches for: (a) the current official documentation landing page,
    (b) 2-3 actively maintained GitHub repos, (c) one recent (last 12 months) real-world case study
    or benchmark. Never fabricate a URL — omit a resource category rather than invent a link.
-4. Break multi-part or vague topics (e.g. "Agentic AI on AWS") into sub-sections that map cleanly
+4. Identify the 2-3 real competing tools/services/approaches for the `Comparison` slide's scenario
+   (e.g. topic "kagent" → compare against k8sgpt and a plain kubectl+LLM copilot workflow; topic
+   "Bedrock AgentCore" → compare against self-managed LangGraph-on-ECS). Web-search each
+   competitor's current docs/changelog to source the comparison rows accurately — do not compare
+   against a strawman or an outdated feature set.
+5. Break multi-part or vague topics (e.g. "Agentic AI on AWS") into sub-sections that map cleanly
    onto slides — don't try to cover everything shallowly.
-5. Draft a slide-by-slide outline before writing content: title → agenda → intro/why-it-matters →
-   key concepts (2-4 slides) → architecture (1-3 slides, varying diagram type) → demo/workflow →
-   best practices/production gotchas → benchmark or comparison (Advanced only, optional at other
-   levels) → resources → Q&A/CTA. Scale the middle sections to hit the requested slide count —
-   never pad with filler slides or repeat a layout back-to-back.
+6. Draft a slide-by-slide outline before writing content: title → agenda → [speaker, if provided]
+   → **problem statement (`ProblemFriction`, always slide 3 — never skip, never lead with
+   "what is X" instead)** → key concepts (2-4 slides) → architecture (1-3 slides, varying diagram
+   type, each sourced per `references/diagram-guide.md`) → demo/workflow → **comparison (always
+   included, scenario-based — see point 4)** → best practices/production gotchas → benchmark
+   (Advanced only, optional at other levels) → resources → Q&A/CTA. Scale the middle sections to
+   hit the requested slide count — never pad with filler slides or repeat a layout back-to-back.
+   See `references/slide-archetypes.md` → "Mandatory slides" for the full rule.
 
 ## Step 3 — Generate architecture diagrams
 
-Produce one Mermaid diagram per architecture slide describing the actual service/flow topology
-(not a generic box-and-arrow placeholder) — see `references/diagram-guide.md` for the per-provider
-node vocabulary and layout conventions (flowchart for request/data flow, sequence diagram for
-multi-agent or API call ordering). Render each Mermaid diagram to a transparent-background PNG
-using `scripts/render_mermaid.py` before placing it — pptxgenjs cannot render Mermaid source
-directly, and diagrams belong on the slide as clean vector-quality images, not as a rendering of
-the Mermaid code block.
+Before drawing anything, **web-search the official architecture diagram** for the topic (AWS
+Architecture Center, GCP Architecture Center, Azure Architecture Center, or the project's own docs
+— see `references/diagram-guide.md` → "Source every topology from the web before drawing it",
+which is a required step, not optional). Then produce one Mermaid diagram per architecture slide
+describing that real service/flow topology (not a generic box-and-arrow placeholder), using the
+per-provider node vocabulary and layout conventions in the same reference (flowchart for
+request/data flow, sequence diagram for multi-agent or API call ordering). Cite the source URL in
+the slide's speaker notes. Render each Mermaid diagram to a transparent-background PNG using
+`scripts/render_mermaid.py` before placing it — pptxgenjs cannot render Mermaid source directly,
+and diagrams belong on the slide as clean vector-quality images, not as a rendering of the Mermaid
+code block.
 
 ## Step 4 — Build the deck
 
@@ -136,6 +167,7 @@ object per line) so repeat invocations on related topics can reuse prior resourc
 /deck-architect LangGraph + LangSmith (20 slides, advanced, AWS+GCP, PPTX+PDF)
 /deck-architect Platform Engineering with CNCF tooling (fundamentals)
 /deck-architect Azure OpenAI vs Amazon Bedrock (comparison, 15 slides)
+/deck-architect kagent for Kubernetes troubleshooting (speaker: linkedin.com/in/yourprofile)
 ```
 
 ## Troubleshooting

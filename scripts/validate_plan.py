@@ -116,7 +116,7 @@ def validate_slides(plan):
     valid_archetypes = [
         "Title", "Agenda", "ProblemFriction", "KeyConcept", "Topology",
         "DeepDive", "CodeSpec", "Comparison", "Timeline", "BenchmarkMatrix",
-        "ProductionGotchas", "Demo", "Quote", "Resources", "CallToAction"
+        "ProductionGotchas", "Demo", "Quote", "Resources", "Speaker", "CallToAction"
     ]
     
     errors = []

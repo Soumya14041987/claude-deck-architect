@@ -64,5 +64,9 @@ Step 2-3 of `SKILL.md` before calling the script — do not hand-write pptxgenjs
   - `Resources`: `docs`, `repos` (arrays of `{label, url}`) — every `url` must be a real link found
     via `data/topics.json` or a live search; never fabricated
   - `Quote`: `text` (≤25 words, paraphrased — never a verbatim copyrighted quote), `attribution`
+  - `Speaker`: `name`, `role`, `bio` (paraphrased from the speaker's LinkedIn, never copy-pasted),
+    `photo` (path to a locally saved headshot, optional), `contacts` (array of
+    `{label, value, url}` — LinkedIn, email, GitHub, X, website). Sourced from the LinkedIn profile
+    URL collected at intake; see `SKILL.md` Step 1a and `references/slide-archetypes.md`.
   - `CallToAction`: `items` (next steps), `handles` (social/contact array)
 - `notes` (optional on any slide) becomes the PPTX speaker note via `addNotes()`.

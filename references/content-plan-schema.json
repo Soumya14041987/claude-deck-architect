@@ -96,6 +96,9 @@
             "$ref": "#/definitions/ResourcesSlide"
           },
           {
+            "$ref": "#/definitions/SpeakerSlide"
+          },
+          {
             "$ref": "#/definitions/CallToActionSlide"
           }
         ]
@@ -583,6 +586,61 @@
                   "last_updated": {
                     "type": "string",
                     "description": "Last push date (optional, updated by fetch_resources.py)"
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "SpeakerSlide": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/BaseSlide"
+        },
+        {
+          "type": "object",
+          "required": ["name"],
+          "properties": {
+            "archetype": {
+              "const": "Speaker"
+            },
+            "name": {
+              "type": "string",
+              "description": "Speaker's full name, sourced from the LinkedIn profile supplied at intake"
+            },
+            "role": {
+              "type": "string",
+              "description": "Current title/headline, e.g. 'Senior Cloud Architect @ Acme' (from LinkedIn headline)"
+            },
+            "bio": {
+              "type": "string",
+              "description": "2-3 sentence bio summarizing LinkedIn About/Experience — paraphrased, never copy-pasted verbatim"
+            },
+            "photo": {
+              "type": "string",
+              "description": "Path to a locally saved headshot, if the user supplied one; never hotlink or scrape a LinkedIn CDN image URL"
+            },
+            "contacts": {
+              "type": "array",
+              "description": "Ways to reach the speaker (LinkedIn, email, GitHub, X/Twitter, website)",
+              "items": {
+                "type": "object",
+                "required": ["value"],
+                "properties": {
+                  "label": {
+                    "type": "string",
+                    "description": "e.g. 'LinkedIn', 'Email', 'GitHub'"
+                  },
+                  "value": {
+                    "type": "string",
+                    "description": "Display text, e.g. 'linkedin.com/in/username'"
+                  },
+                  "url": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "Full clickable URL, must be real and user-confirmed"
                   }
                 }
               }

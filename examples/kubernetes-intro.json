@@ -27,6 +27,18 @@
       "notes": "We'll cover the fundamentals of Kubernetes in 20 minutes."
     },
     {
+      "archetype": "Speaker",
+      "title": "Your Speaker",
+      "name": "Jane Doe",
+      "role": "Platform Engineer @ Example Corp",
+      "bio": "Jane has spent six years running Kubernetes clusters in production and now helps teams adopt cloud-native platforms.",
+      "contacts": [
+        {"label": "LinkedIn", "value": "linkedin.com/in/janedoe", "url": "https://www.linkedin.com/in/janedoe"},
+        {"label": "GitHub", "value": "github.com/janedoe", "url": "https://github.com/janedoe"}
+      ],
+      "notes": "Sourced from the speaker's LinkedIn profile at intake; paraphrased, not copy-pasted."
+    },
+    {
       "archetype": "ProblemFriction",
       "title": "The Container Orchestration Problem",
       "before": {
@@ -78,6 +90,16 @@
       "language": "YAML",
       "code": "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: hello-app\nspec:\n  replicas: 3\n  selector:\n    matchLabels:\n      app: hello\n  template:\n    metadata:\n      labels:\n        app: hello\n    spec:\n      containers:\n      - name: app\n        image: gcr.io/google-samples/hello-app:1.0\n        ports:\n        - containerPort: 8080",
       "notes": "This YAML creates 3 replicas of a simple hello-world app. Kubernetes will keep them running."
+    },
+    {
+      "archetype": "Comparison",
+      "title": "Kubernetes vs. Other Orchestrators",
+      "columns": [
+        {"name": "Kubernetes", "rows": ["Huge ecosystem (CNCF)", "Steeper learning curve", "Runs anywhere: cloud, on-prem, edge"]},
+        {"name": "Docker Swarm", "rows": ["Simple setup", "Smaller ecosystem", "Best for small, simple deployments"]},
+        {"name": "Nomad", "rows": ["Lightweight, single binary", "Handles non-container workloads too", "Smaller community than Kubernetes"]}
+      ],
+      "notes": "Sourced from each project's current docs — Kubernetes wins on ecosystem breadth, Swarm on simplicity, Nomad on workload flexibility."
     },
     {
       "archetype": "ProductionGotchas",

@@ -5,6 +5,28 @@ Diagrams are authored in Mermaid, then rasterized to a themed transparent PNG vi
 source natively, and a diagram screenshot of raw code is not an acceptable substitute for a real
 architecture visual.
 
+## Source every topology from the web before drawing it (required, do not skip)
+
+Never draw an architecture diagram from memory alone. Before writing the Mermaid source for any
+`Topology` slide:
+
+1. Run a web search for the **official** reference architecture: AWS → the AWS Architecture
+   Center / service doc "how it works" diagram on `docs.aws.amazon.com` or `aws.amazon.com/architecture`;
+   GCP → the Google Cloud Architecture Center on `cloud.google.com/architecture`; Azure → the
+   Azure Architecture Center on `learn.microsoft.com/azure/architecture`; Kubernetes/CNCF/agentic
+   frameworks → the project's own docs or GitHub README architecture section.
+2. Reproduce that topology's real components, direction of data flow, and trust boundaries in
+   Mermaid — component names must match the vendor's current naming (services get renamed; verify
+   rather than reuse a name from training data).
+3. Note the source URL in the slide's `notes` field (speaker notes), so the deck is defensible in
+   Q&A and the audience can verify it themselves.
+4. If no official diagram exists for a niche or very new topic, compose the topology from the
+   product's documented API/service list instead of inventing boxes, and say so in speaker notes
+   ("no official reference architecture published as of <date>; composed from service docs").
+
+This applies to every `Topology` slide, not just the first — an "AgentCore reference architecture"
+slide and a later "AgentCore failure-mode" slide each need their own accuracy pass.
+
 ## Diagram type by content
 
 - **Request/data flow between services** → `flowchart LR` (left-to-right) or `flowchart TD`

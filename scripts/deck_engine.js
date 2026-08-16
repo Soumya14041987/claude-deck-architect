@@ -569,6 +569,57 @@ function renderResources(item, idx) {
   addNotesIfAny(s, item);
 }
 
+function renderSpeaker(item, idx) {
+  const s = baseSlide();
+  titleBlock(s, item.title || "Speaker");
+  const photoW = 2.6;
+  const hasPhoto = item.photo && fs.existsSync(item.photo);
+
+  if (hasPhoto) {
+    s.addImage({ path: item.photo, x: MARGIN, y: 1.7, w: photoW, h: photoW, sizing: { type: "cover", w: photoW, h: photoW } });
+  } else {
+    s.addShape(pres.shapes.OVAL, {
+      x: MARGIN, y: 1.7, w: photoW, h: photoW, fill: { color: CARD_BG }, line: { color: ACCENT, width: 2 },
+    });
+    const initials = (item.name || "?").split(/\s+/).map((w) => w[0]).slice(0, 2).join("").toUpperCase();
+    s.addText(initials, {
+      x: MARGIN, y: 1.7, w: photoW, h: photoW, fontFace: FONT, fontSize: 44, bold: true,
+      color: ACCENT, align: "center", valign: "middle", margin: 0,
+    });
+  }
+
+  const textX = MARGIN + photoW + 0.5;
+  const textW = SLIDE_W - textX - MARGIN;
+  let y = 1.75;
+
+  s.addText(item.name || "", {
+    x: textX, y, w: textW, h: 0.55, fontFace: FONT, fontSize: 24, bold: true, color: TITLE_COLOR, margin: 0,
+  });
+  y += 0.6;
+  if (item.role) {
+    s.addText(item.role, {
+      x: textX, y, w: textW, h: 0.4, fontFace: FONT, fontSize: 15, color: ACCENT2, margin: 0,
+    });
+    y += 0.5;
+  }
+  if (item.bio) {
+    s.addText(item.bio, {
+      x: textX, y, w: textW, h: 1.6, fontFace: FONT, fontSize: 13.5, color: TEXT, margin: 0, valign: "top",
+      lineSpacingMultiple: 1.2,
+    });
+    y += 1.7;
+  }
+  const contacts = item.contacts || [];
+  contacts.forEach((c) => {
+    s.addText(c.label ? `${c.label}: ${c.value}` : (c.value || ""), {
+      x: textX, y, w: textW, h: 0.35, fontFace: FONT, fontSize: 12.5, color: ACCENT,
+      margin: 0, hyperlink: c.url ? { url: c.url } : undefined,
+    });
+    y += 0.4;
+  });
+  addNotesIfAny(s, item);
+}
+
 function renderCallToAction(item, idx) {
   const s = baseSlide(ACCENT);
   const onAccentText = "FFFFFF";
@@ -609,6 +660,7 @@ const RENDERERS = {
   Demo: renderDemo,
   Quote: renderQuote,
   Resources: renderResources,
+  Speaker: renderSpeaker,
   CallToAction: renderCallToAction,
 };
 
