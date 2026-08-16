@@ -51,16 +51,19 @@ below **in a single combined prompt** (not one at a time) unless the user's invo
 answered some of them inline (e.g. `/deck-architect LangGraph + LangSmith (20 slides, advanced,
 AWS+GCP, PPTX+PDF)` skips straight to Step 2).
 
-1. **Slide count** — 10 / 20 / 30 (default 15 if unanswered after one nudge)
-2. **Cloud provider(s)** — AWS / GCP / Azure / Multi-cloud / Not cloud-specific (CNCF, agentic AI
-   frameworks, etc.)
-3. **Difficulty level** — Fundamentals / Intermediate / Advanced
-4. **Output format** — PPTX / PDF / Both
+Use a structured prompt with pre-defined dropdown-style options so the user can choose quickly:
+
+1. **Cloud provider** — AWS / GCP / Azure / Multi-cloud / Kubernetes & CNCF / Agentic AI / GenAI / Other
+2. **Target audience or meetup context** — AWS Community Day / AWS re:Invent / KCD / CNCF / GDG / Internal tech share / Conference keynote / Executive briefing / Other
+3. **Slide count** — 10 / 15 / 20 / 30 / 40 / 50 (default 15 if unanswered after one nudge)
+4. **Diagram style** — Architecture diagram / Workflow diagram / Pipeline diagram / Mixed / No diagram
+5. **Difficulty level** — Fundamentals / Intermediate / Advanced
+6. **Output format** — PPTX / PDF / Both
 
 If the topic name alone makes an answer obvious (e.g. "AWS Bedrock AgentCore" implies AWS), infer
 it and only ask about the remaining unknowns — state the inferred value rather than asking about
 it. Never block indefinitely: if the user gives a vague or partial answer, pick sensible defaults
-(15 slides, Intermediate, PPTX) and proceed rather than re-prompting more than once.
+(15 slides, Intermediate, PPTX, mixed diagram style) and proceed rather than re-prompting more than once.
 
 ## Step 2 — Resolve theme and content plan
 

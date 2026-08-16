@@ -100,45 +100,236 @@ handle discovery and invocation in each environment.
 
 Installation
 
-Minimum requirements: Node.js 18+, Python 3.9+
+System Requirements
 
-Clone the repository and install dependencies:
+Node.js: version 18 or higher
+Python: version 3.9 or higher
+Git: for cloning the repository
+pip: Python package manager (usually included with Python)
+
+Step 1: Clone the Repository
+
+macOS and Linux:
 
     git clone https://github.com/Soumya14041987/claude-deck-architect.git
     cd claude-deck-architect
+
+Windows (Command Prompt or PowerShell):
+
+    git clone https://github.com/Soumya14041987/claude-deck-architect.git
+    cd claude-deck-architect
+
+Step 2: Install Node and Python Dependencies
+
+macOS and Linux:
+
     npm install
     pip install -r requirements.txt --break-system-packages
 
-Optional: For native Mermaid diagram rendering:
+Windows (Command Prompt):
+
+    npm install
+    pip install -r requirements.txt
+
+Windows (PowerShell):
+
+    npm install
+    pip install -r requirements.txt
+
+Step 3: Optional Mermaid CLI Setup
+
+For native Mermaid diagram rendering (recommended for best visual quality):
+
+macOS and Linux:
 
     npm install -g @mermaid-js/mermaid-cli
     npx puppeteer browsers install chrome-headless-shell
 
-Without these, the tool automatically falls back to simpler Pillow-rendered diagrams.
+Windows (Command Prompt):
 
-Setting up on Claude Desktop
+    npm install -g @mermaid-js/mermaid-cli
+    npx puppeteer browsers install chrome-headless-shell
 
-1. Copy (or symlink) the cloned folder to your Claude Desktop plugins directory:
-   - macOS: ~/Library/Application Support/Claude/plugins/claude-deck-architect
-   - Windows: %APPDATA%\Claude\plugins\claude-deck-architect
-   - Linux: ~/.config/Claude/plugins/claude-deck-architect
+Without this, diagrams render as simple Pillow-drawn boxes instead of styled Mermaid output.
+Both are on-theme and legible, but Mermaid renders are more professional.
 
-2. Restart Claude Desktop. It will read manifest.json and register the /deck-architect command.
+Setting up for Claude Desktop
 
-3. Invoke with /deck-architect <topic> in any conversation.
+macOS Setup
 
-Setting up on Claude Code
+1. Create the plugins directory if it doesn't exist:
 
-Option A (direct reference):
+    mkdir -p ~/Library/Application\ Support/Claude/plugins
 
-    Drop the cloned folder into your project. Claude Code automatically discovers SKILL.md
-    in your working tree.
+2. Create a symlink from your cloned repository to Claude Desktop's plugins folder:
 
-Option B (plugin registration):
+    ln -s /path/to/claude-deck-architect \
+      ~/Library/Application\ Support/Claude/plugins/claude-deck-architect
 
-    claude plugin add ./claude-deck-architect
+   Replace /path/to/claude-deck-architect with the actual path where you cloned it.
+   If you cloned it in your home directory:
 
-Then invoke with /deck-architect <topic> in Claude Code sessions.
+    ln -s ~/claude-deck-architect \
+      ~/Library/Application\ Support/Claude/plugins/claude-deck-architect
+
+3. Restart Claude Desktop completely (quit and reopen).
+
+4. Verify installation: In Claude Desktop, type /deck-architect and you should see the
+   command autocomplete.
+
+Windows Setup
+
+1. Open File Explorer and navigate to:
+
+    %APPDATA%\Claude\plugins
+
+   If the plugins folder doesn't exist, create it:
+   Right-click in %APPDATA%\Claude and select New > Folder, name it "plugins"
+
+2. Create a symbolic link from your cloned repository to the plugins folder.
+   Open Command Prompt as Administrator and run:
+
+    mklink /d "%APPDATA%\Claude\plugins\claude-deck-architect" \
+      "C:\path\to\claude-deck-architect"
+
+   Replace C:\path\to\claude-deck-architect with the actual path to your cloned folder.
+   Example (if cloned in Documents):
+
+    mklink /d "%APPDATA%\Claude\plugins\claude-deck-architect" \
+      "%USERPROFILE%\Documents\claude-deck-architect"
+
+3. Restart Claude Desktop completely (quit and reopen).
+
+4. Verify installation: In Claude Desktop, type /deck-architect and you should see the
+   command autocomplete.
+
+Alternative (No Symlink)
+
+If symlinks don't work, copy the folder directly:
+
+macOS:
+
+    cp -r /path/to/claude-deck-architect \
+      ~/Library/Application\ Support/Claude/plugins/
+
+Windows:
+
+    xcopy /E /I C:\path\to\claude-deck-architect \
+      %APPDATA%\Claude\plugins\claude-deck-architect
+
+Setting up for Claude Code
+
+Option A: Auto-Discovery (Recommended)
+
+1. Open the cloned claude-deck-architect folder in Claude Code:
+
+    code /path/to/claude-deck-architect
+
+2. Claude Code automatically discovers SKILL.md in the working directory.
+
+3. Type /deck-architect in any Claude Code chat and it will work.
+
+Option B: Plugin Registration
+
+1. Navigate to the folder:
+
+    cd /path/to/claude-deck-architect
+
+2. Register as a plugin:
+
+    claude plugin add .
+
+   Or:
+
+    claude plugin install .
+
+3. Restart Claude Code.
+
+4. Type /deck-architect in any chat and it will work.
+
+Verifying Installation
+
+Test on Claude Desktop
+
+1. Open Claude Desktop.
+2. Start a new conversation.
+3. Type: /deck-architect AWS Lambda
+4. You should see the skill activate and ask clarifying questions.
+
+Test on Claude Code
+
+1. Open Claude Code with the claude-deck-architect folder.
+2. Start a new chat.
+3. Type: /deck-architect Kubernetes basics
+4. You should see the skill activate and ask clarifying questions.
+
+Troubleshooting Installation
+
+Command not found after restart
+
+Claude Desktop: Check that the path in the symlink is correct.
+
+    ls -la ~/Library/Application\ Support/Claude/plugins/
+
+   Should show: claude-deck-architect -> /actual/path
+
+Windows: Verify the symlink was created:
+
+    dir %APPDATA%\Claude\plugins
+
+   Should show SYMLINK with the correct target.
+
+Plugin not appearing in Claude Code
+
+Make sure you're in the claude-deck-architect folder when you run claude plugin add.
+Restart Claude Code after registration.
+
+Mermaid diagrams rendering as boxes
+
+This is normal if you skipped Step 3 (Mermaid CLI setup). To enable Mermaid rendering:
+
+    npm install -g @mermaid-js/mermaid-cli
+    npx puppeteer browsers install chrome-headless-shell
+
+Python/Node not found
+
+Ensure Node.js 18+ and Python 3.9+ are installed and in your PATH:
+
+    node --version
+    python3 --version
+
+Update if needed from nodejs.org and python.org.
+
+Running validate_plan.py Before First Build
+
+Before using /deck-architect for the first time, validate your setup:
+
+    python3 scripts/validate_plan.py --plan examples/kubernetes-intro.json
+
+Expected output: All checks passed (6/6)
+
+This confirms your Python environment and JSON schema validation are working.
+
+Build Your First Deck
+
+Test the complete workflow:
+
+macOS and Linux:
+
+    python3 scripts/build_deck.py \
+      --plan examples/kubernetes-intro.json \
+      --out test-deck.pptx \
+      --verbose
+
+Windows:
+
+    python3 scripts/build_deck.py ^
+      --plan examples/kubernetes-intro.json ^
+      --out test-deck.pptx ^
+      --verbose
+
+Expected: A test-deck.pptx file is created in the current directory with a 10-slide Kubernetes
+deck. The --verbose flag shows real-time progress.
 
 Examples
 
